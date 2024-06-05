@@ -21,3 +21,6 @@ https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.
 # install ansible
 apt -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-debian-11
+
+# extract cloud_server.ssh
+tar zxvf cloud_server.ssh
