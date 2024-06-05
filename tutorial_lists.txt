@@ -1,0 +1,23 @@
+# vim tutorial
+
+# mysql
+
+# docker get started
+https://docs.docker.com/get-started/
+
+# docker install on debian 11
+https://docs.docker.com/engine/install/debian/
+https://docker-curriculum.com/
+
+# Azure DevOPs
+https://azure.microsoft.com/en-us/products/devops/?nav=min
+
+#pipelines
+https://learn.microsoft.com/en-us/search/?terms=azure%20pipelines
+
+# Ansible
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
+
+# install ansible
+apt -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-debian-11
