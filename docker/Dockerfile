@@ -9,3 +9,4 @@ RUN apt install -y openssh-server
 
 EXPOSE 22
 ENTRYPOINT ["nohup", "/startup.sh"]
+
