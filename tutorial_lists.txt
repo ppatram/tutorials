@@ -1,5 +1,8 @@
 # vim tutorial
 
+# GIT
+https://git-scm.com/docs/gittutorial
+
 # mysql
 
 # docker get started
