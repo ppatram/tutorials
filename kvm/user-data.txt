@@ -1,0 +1,4 @@
+#cloud-config
+password: secretpassword
+chpasswd: { expire: False }
+ssh_pwauth: True
