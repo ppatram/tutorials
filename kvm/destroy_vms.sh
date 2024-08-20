@@ -1,12 +1,12 @@
 #!/bin/bash
 
 lastmach=$1
-x=0
+x=1
 while [ $x -lt $lastmach ]
 do
   x=$(( $x + 1 ))
-  #echo virsh start ubuntu-vm${x}
-  virsh start ubuntu-vm${x}
+  virsh shutdown ubuntu-vm${x}
+  virsh undefine ubuntu-vm${x}
 done
 
 exit

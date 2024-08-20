@@ -57,7 +57,7 @@ write_files:
       echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi' >> /home/ubuntu/.ssh/authorized_keys
 
 
-      vmnum=__VMNUM__
+      vmnum=6
       lastoct=$(echo "22+$vmnum" | bc)
       echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /root/.bashrc
       echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /home/ubuntu/.bashrc
