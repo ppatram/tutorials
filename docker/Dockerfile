@@ -1,7 +1,7 @@
-FROM debian
+FROM debian:12
 LABEL description="SSHD"
 RUN mkdir -p /etc/apt
-COPY sources.list /etc/apt
+COPY sources.list /etc/apt/sources.list
 COPY startup.sh /
 RUN chmod 755 /startup.sh
 RUN apt update
