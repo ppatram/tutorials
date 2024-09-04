@@ -1,0 +1,70 @@
+Creating VM1...
+Formatting 'ubuntu-vm1-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM2...
+Formatting 'ubuntu-vm2-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM3...
+Formatting 'ubuntu-vm3-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM4...
+Formatting 'ubuntu-vm4-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM5...
+Formatting 'ubuntu-vm5-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM6...
+Formatting 'ubuntu-vm6-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM7...
+Formatting 'ubuntu-vm7-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM8...
+Formatting 'ubuntu-vm8-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM9...
+Formatting 'ubuntu-vm9-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE
+Creating VM10...
+Formatting 'ubuntu-vm10-disk.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 backing_file=/var/lib/libvirt/images/jammy-server-cloudimg-amd64-disk-kvm.img backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+
+Starting install...
+Creating domain...                                          |    0 B  00:00     
+Domain creation completed.
+DONE

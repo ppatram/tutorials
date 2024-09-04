@@ -1,0 +1,89 @@
+---
+- hosts: all
+  tasks:
+
+    - name: Remove swapfile from /etc/fstab
+      mount:
+        name: "{{ item }}"
+        fstype: swap
+        state: absent
+      with_items:
+        - swap
+
+    - name: swapoff
+      ansible.builtin.shell: swapoff -a
+
+    - name: remove any kubernetes apt config
+      ansible.builtin.file:
+        path: /etc/apt/apt.conf.d/10-kubernetes.conf
+        state: absent
+
+    - name: remove kubernetes repo definition
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        state: absent
+
+    - name: Update repositories cache
+      ansible.builtin.apt:
+        update_cache: yes
+        force: True
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: add GPG key for kubernetes
+      ansible.builtin.shell: 'rm -f /etc/apt/keyrings/kubernetes-apt-keyring.gpg; curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg'
+
+    - name: add kubernetes repo
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        line: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /"
+        create: True
+
+    - name: Update repositories cache
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+        
+    - name: Install kubeadm, kubelet, and kubectl
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - kubeadm
+        - kubelet
+        - kubectl
+        - vim
+        - git
+        - wget
+        - apt-transport-https
+
+- hosts: master
+  tasks:
+    - name: Initialize Kubernetes master
+      command: kubeadm init --pod-network-cidr=10.244.0.0/16
+      register: kubeadm_output
+      ignore_errors: yes
+
+    - name: create .kube directory
+      ansible.builtin.file:
+        path: /root/.kube
+        state: directory
+    
+    - name: copy admin.conf
+      ansible.builtin.copy:
+        remote_src: /etc/kubernetes/admin.conf
+        dest:  /root/.kube/config
+        mode: '0600'
+    
+    - name: Install Calico network plugin
+      command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      when: "'calico' in kubeadm_output.stdout"
+
+- hosts: workers
+  tasks:
+    - name: Join worker nodes to the cluster
+      command: "{{ hostvars['master']['kubeadm_output']['stdout_lines'][0] }}"
+      when: "'kubeadm join' in hostvars['master']['kubeadm_output']['stdout']"

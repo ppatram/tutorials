@@ -1,0 +1,50 @@
+#cloud-config
+# T3mppass
+users:
+- name: 'ubuntu'
+  groups: ubuntu,adm,sudo
+  shell: /bin/bash
+  lock_passwd: true
+  passwd: '$y$j9T$vr/0aZ1EDZHOY/0mMkAyJ.$z97uhoRNmBKqLXYZPz/kcvzMSOs2X5QVoXAblTyRfF5'
+  ssh_authorized_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi'
+
+
+
+- name: 'root'
+  groups: root
+  shell: /bin/bash
+  lock_passwd: true
+  passwd: '$y$j9T$vr/0aZ1EDZHOY/0mMkAyJ.$z97uhoRNmBKqLXYZPz/kcvzMSOs2X5QVoXAblTyRfF5'
+  ssh_authorized_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi'
+
+
+write_files:
+  - path: /test/setup.sh
+    content: |
+      #!/bin/bash
+      echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /root/.bashrc
+      echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /home/ubuntu/.bashrc
+      hostnamectl set-hostname __HOSTNAME__ 
+      myip=$( hostname -i | awk '{print $1}')
+      ifname=$(ip addr | grep UP | grep -v lo:|cut -d: -f2 | tr -d ' ')
+
+cat >> EOF
+network:
+  ethernets:
+    ${ifname}:
+      dhcp4: no
+      addresses: [${myip}/24]
+      gateway4: 192.168.122.1
+      nameservers:
+        addresses: [1.1.1.1,8.8.8.8]
+EOF
+      netplan apply
+
+    permissions: '0755'
+
+runcmd:
+  - [ sh, "/tmp/setup.sh" ]

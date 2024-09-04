@@ -1,0 +1,89 @@
+#cloud-config
+users:
+  - default
+  - name: joe
+    passwd: '$y$j9T$vr/0aZ1EDZHOY/0mMkAyJ.$z97uhoRNmBKqLXYZPz/kcvzMSOs2X5QVoXAblTyRfF5'
+    shell: /bin/bash
+    lock-passwd: false
+    ssh_pwauth: True
+    chpasswd: { expire: False }
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    ssh_authorized_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi'
+
+
+
+users:
+- name: 'ubuntu'
+  groups: ubuntu,adm,sudo
+  shell: /bin/bash
+  lock_passwd: true
+  passwd: '$y$j9T$vr/0aZ1EDZHOY/0mMkAyJ.$z97uhoRNmBKqLXYZPz/kcvzMSOs2X5QVoXAblTyRfF5'
+  ssh_authorized_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi'
+
+
+
+- name: 'root'
+  groups: root
+  shell: /bin/bash
+  lock_passwd: true
+  passwd: '$y$j9T$vr/0aZ1EDZHOY/0mMkAyJ.$z97uhoRNmBKqLXYZPz/kcvzMSOs2X5QVoXAblTyRfF5'
+  ssh_authorized_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi'
+
+
+chpasswd:
+  list: |
+    root:joe
+  expire: False
+
+write_files:
+  - path: /root/setup.sh
+    content: |
+      #!/bin/bash
+      echo 'network: {config: disabled}' > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+      exec > /root/setup.out 2>&1
+      echo 'root:joe' | chpasswd
+      echo 'ubuntu:joe' | chpasswd
+      echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi' >> /root/.ssh/authorized_keys
+      echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXSNO8OPYiZC4FoPWlMnfp/MltK+Ski0xA4kwtjf6mC desky@ubuntu-vdi' >> /home/ubuntu/.ssh/authorized_keys
+
+      echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi' >> /root/.ssh/authorized_keys
+      echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIInPjqseIUNlEKnhuwulg0zHwnuSNgzDm9JEgfenGCzx root@ubuntu-vdi' >> /home/ubuntu/.ssh/authorized_keys
+
+
+      vmnum=2
+      lastoct=$(echo "22+$vmnum" | bc)
+      echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /root/.bashrc
+      echo 'export PS1="\e[0;31m[\u@\h \W] ==>\$ \e[m "' >> /home/ubuntu/.bashrc
+      hostnamectl set-hostname ubuntu-vm${vmnum}
+      ifname=$(ip addr | grep UP | grep -v lo:|cut -d: -f2 | tr -d ' ')
+
+      echo "network:
+        ethernets:
+          ${ifname}:
+            dhcp4: no
+            addresses: [192.168.122.${lastoct}/24]
+            gateway4: 192.168.122.1
+            nameservers:
+              addresses: [1.1.1.1,8.8.8.8]
+      " >  /etc/netplan/50-cloud-init.yaml
+
+
+      netplan apply
+
+
+    permissions: '0755'
+
+runcmd:
+  - [ sh, "/root/setup.sh" ]
+
+
+
+
+
